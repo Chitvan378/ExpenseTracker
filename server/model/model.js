@@ -17,11 +17,11 @@ const transaction_model = new Schema({
 })
 
 // Creating models
-const categories = mongoose.model(category_model);
-const transactions = mongoose.model(transaction_model);
+const Categories = mongoose.model('categories', category_model);
+const Transactions = mongoose.model('transactions',transaction_model);
 
-exports.default = transactions;
+exports.default = Transactions;
 module.exports = {
-    categories,
-    transactions
+    Categories,
+    Transactions
 }

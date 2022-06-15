@@ -1,11 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {useForm} from 'react-hook-form'
 import List from './List';
+import {default as api} from "../store/apislice"
+
+
 function Form() {
-    const {register, handleSubmit, resetfield} = useForm();
-    // const {transaction, setTransaction} = useState([]);
-    const onsubmit = (data) => {    
+    const {register, handleSubmit, resetField} = useForm();
+    const [addTransaction] = api.useAddTransactionMutation();
+    const onsubmit = async (data) => {    
+        if(!data)
+            return {}
+        await addTransaction(data).unwrap();
         console.log(data)
+        resetField('name');
+        resetField('amount');
     }
   return (
     <div className='form max-w-sm mx-auto w-96'>
@@ -13,9 +21,9 @@ function Form() {
         <form action="" id = 'form' onSubmit={handleSubmit(onsubmit)}>
             <div className='grid gap-4'>
                 <div className="input-group form-input">
-                    <input type="text" {...register('name')} placeholder='Salary, HouseRent' className='p-2'/>
+                    <input type="text" {...register('name')} placeholder='Salary, HouseRent etc' className='p-2'/>
                 </div>
-                <select name="" id="" {...register('type')}className="form-input p-2">
+                <select className="form-input p-2" {...register('type')}>
                     <option value="Savings" defaultValue>Savings</option>
                     <option value="Investment">Investment</option>
                     <option value="Expense">Expense</option>
